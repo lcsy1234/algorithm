@@ -10,23 +10,23 @@
  * @param {number} val
  * @return {ListNode}
  */
-// var removeElements = function (head, val) {
-//     let thisHead = head
-//     while (thisHead && thisHead === val) {
-//         thisHead = thisHead.next
-//     }
-//     let cur = thisHead
-//     while (head && cur.next) {
-//         if (cur.next.val === val) {
-//             cur = cur.next.next
-//         } else {
-//             cur = cur.next
-//         }
-//     }
+var removeElements = function (head, val) {
+    let thisHead = head
+    while (thisHead && thisHead === val) {
+        thisHead = thisHead.next
+    }
+    let cur = thisHead
+    while (head && cur.next) {
+        if (cur.next.val === val) {
+            cur = cur.next.next
+        } else {
+            cur = cur.next
+        }
+    }
 
 
-//     return thisHead
-// };
+    return thisHead
+};
 //解法二
 var removeElements = function (head, val) {
     let dummyHead = new ListNode(0, head)
