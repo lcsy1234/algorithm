@@ -15,12 +15,8 @@
 //     }else if(sum<target){
 //         start++
 
-const { hash } = require("crypto");
-const { hasSubscribers } = require("diagnostics_channel");
-
 //     }else{
 //         end--
-        
 //     }
     
 //    }
@@ -28,6 +24,8 @@ const { hasSubscribers } = require("diagnostics_channel");
 // };
 // twoSum([2,7,11,15],9)
 //上面的解法不能够返回下标而是返回值的时候才使用
+const { hash } = require("crypto");
+const { hasSubscribers } = require("diagnostics_channel");
 //解法二
 /**
  * @param {number[]} nums
