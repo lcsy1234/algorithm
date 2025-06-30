@@ -39,15 +39,12 @@ var maxSlidingWindow = function(nums, k) {
         if (deque.length > 0 && deque[0] <= i - k) {
             deque.shift();
         }
-        
         // 移除队列中所有小于当前元素的下标，确保队列降序
         while (deque.length > 0 && nums[deque[deque.length - 1]] < nums[i]) {
             deque.pop();
         }
-        
         // 添加当前元素下标到队列
         deque.push(i);
-        
         // 当窗口形成后，记录最大值
         if (i >= k - 1) {
             result.push(nums[deque[0]]);
