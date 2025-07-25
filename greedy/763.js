@@ -10,10 +10,9 @@ function partitionLabels(s) {
     let end = 0;   // 当前区间的结束位置
 
     for (let i = 0; i < s.length; i++) {
-        // 更新当前区间的最远边界
+        // 更新当前区间的最远边界，就是所出现的字符的最大边界
         end = Math.max(end, lastPos[s[i]]);
-        
-        // 当遍历到当前区间的最远边界时，划分区间
+
         if (i === end) {
             result.push(end - start + 1);
             start = end + 1; // 开启新的区间
