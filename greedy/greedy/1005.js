@@ -1,7 +1,7 @@
 var largestSumAfterKNegations = function (nums, k) {
     // 1. 按绝对值从大到小排序（处理负数时优先翻转绝对值大的）
     nums.sort((a, b) => Math.abs(b) - Math.abs(a));
-    console.log(nums)
+    console.log(nums)   
 
     // 2. 处理负数：从绝对值大到小依次翻转
     for (let i = 0; i < nums.length && k > 0; i++) {
