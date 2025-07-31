@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <title>Dify Chat API Demo</title>
+  <style>
+    body { padding: 20px; }
+    input { width: 300px; padding: 8px; }
+    button { margin-left: 10px; padding: 8px 16px; }
+    #response { margin-top: 20px; white-space: pre-wrap; }
+  </style>
+</head>
+<body>
+  <input type="text" id="question" placeholder="请输入问题" />
+  <button onclick="sendRequest()">发送</button>
+  <div id="response"></div>
+
+  <script>
+    async function sendRequest() {
+      const question = document.getElementById('question').value;
+      if (!question) return alert('请输入问题');
+
+      const API_URL = 'http://172.24.146.22/chat/M39yeSZbJNfaYVBS';
+      const requestBody = {
+        inputs: {
+          question: question // 需与 Dify 工作流的输入参数名一致（如不同需修改）
+        }
+      };
+
+      try {
+        const response = await fetch(API_URL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': '*',
+            // 若接口需认证，添加以下行（替换 YOUR_API_KEY）：
+            // 'Authorization': 'Bearer YOUR_API_KEY'
+          },
+          body: JSON.stringify(requestBody)
+        });
+
+        if (!response.ok) throw new Error(`HTTP 错误：${response.status}`);
+        const data = await response.json();
+
+        // 假设响应包含 `response` 字段，若结构不同需调整
+        document.getElementById('response').innerText = data.response 
+          ? data.response 
+          : JSON.stringify(data); // 调试用：展示完整响应
+        
+      } catch (error) {
+        document.getElementById('response').innerText = `请求失败：${error.message}`;
+      }
+    }
+  </script>
+</body>
+</html>
