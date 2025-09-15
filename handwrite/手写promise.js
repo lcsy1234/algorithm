@@ -1,4 +1,3 @@
-
 //手写promise
 class MyPromise {
   constructor(executor) {
@@ -36,19 +35,4 @@ class MyPromise {
   }
 }
 
-//测试
-const promise = new MyPromise((resolve, reject) => {
-  setTimeout(() => {
-    resolve("成功");
-    // reject("失败");
-  }, 1000);
-});
 
-promise.then(
-  (value) => {
-    console.log("成功的值:", value);
-  },
-  (reason) => {
-    console.log("失败的原因:", reason);
-  }
-);      
