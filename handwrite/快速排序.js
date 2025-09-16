@@ -1,31 +1,44 @@
-// // 递归：先递后归，先执行
-// const quickSort = (arr) => {
-//   console.log("%c Line:26 🥟 arr", "color:#7f2b82", arr);
-//   if (arr.length <= 1) return arr;
-//   const pivotIndex = Math.floor(arr.length / 2); //3
-//   const pivot = arr.splice(pivotIndex, 1)[0]; //删除中间元素并提取
-//   const left = [];
-//   const right = [];
-//   for (let i = 0; i < arr.length; i++) {
-//     if (arr[i] < pivot) {
-//       left.push(arr[i]);
-//     } else {
-//       right.push(arr[i]);
-//     }
-//   }
+// 递归：先递后归，先执行
+const quickSort = (arr) => {
+  console.log("%c Line:26 🥟 arr", "color:#7f2b82", arr);
+  if (arr.length <= 1) return arr;
+  const pivotIndex = Math.floor(arr.length / 2); //3
+  const pivot = arr.splice(pivotIndex, 1)[0]; //删除中间元素并提取
+  const left = [];
+  const right = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] < pivot) {
+      left.push(arr[i]);
+    } else {
+      right.push(arr[i]);
+    }
+  }
 
-//   console.log("%c Line:39 🍇 left", "color:#2eafb0", left);
+  console.log("%c Line:39 🍇 left", "color:#2eafb0", left);
 
-//   return quickSort(left).concat([pivot], quickSort(right));
-// };
+  return quickSort(left).concat([pivot], quickSort(right));
+};
+function quickSort(array) {
+  //先去重
+  const arr=[...new Set(array)];
+  if (arr.length <= 1) return arr;
+  const pivotIndex = Math.floor(arr.length / 2); //得到中间值
+  const pivot = arr.splice(pivotIndex, 1)[0];
+  const left = [];
+  const right = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (arr[i] < pivot) {
+      left.push(arr[i]);
+    } else {
+      right.push(arr[i]);
+    }
+  }
+  return quickSort(left).concat(pivot, quickSort(right));
+}
+
 // const arr = [3, 6, 8, 10, 1];
 // console.log(quickSort(arr)); // [1, 1, 2, 3, 6, 8, 10]
 //斐波那契数列
-function fibonacci(n) {
-    if (n <= 1) return n;
-    return fibonacci(n - 1) + fibonacci(n - 2);
-}
-console.log(fibonacci(6)); // 8
 
 //手写快速排序
 // 思路：
