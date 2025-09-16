@@ -22,7 +22,6 @@ const debounce=(fn,timer)=>{
         },timer)
     }
 }
-
 // el.addEventListener('click',betterThrottle(handleClick,2000))\
 
 

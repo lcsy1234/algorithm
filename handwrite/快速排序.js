@@ -20,7 +20,11 @@ const quickSort = (arr) => {
 };
 function quickSort(array) {
   //先去重
-  const arr=[...new Set(array)];
+  //   const arr=[...new Set(array)];
+  const arr = arr.filter((item, index) => {
+    // 只保留「第一个出现的元素」
+    return arr.indexOf(item) === index;
+  });
   if (arr.length <= 1) return arr;
   const pivotIndex = Math.floor(arr.length / 2); //得到中间值
   const pivot = arr.splice(pivotIndex, 1)[0];
