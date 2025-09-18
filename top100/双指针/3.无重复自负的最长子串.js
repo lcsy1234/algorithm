@@ -4,7 +4,7 @@ var lengthOfLongestSubstring = function (s) {
   let maxLen=0;
   for (let right = 0; right < s.length; right++) {
      const cur=s[right]
-    if (hashObj.has(cur) && hashObj.get(cur)>= left) {
+    if (hashObj.has(cur) && hashObj.get(cur)>= left){
         //当前的左边界移动到新的左边界
       left = hashObj.get(cur) + 1;
     }
@@ -13,9 +13,4 @@ var lengthOfLongestSubstring = function (s) {
   }
   return maxLen
 };
-function lengthOfLongestSubstring(s){
-    const hashObj=new Map()
-
-
-    
-}
+ 
