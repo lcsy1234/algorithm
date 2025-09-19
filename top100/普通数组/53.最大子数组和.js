@@ -15,7 +15,4 @@ const maxSubArray = function (nums) {
   return maxSum; // 返回最大子数组和
 };
 console.log(maxSubArray([-2,1,-3,4,-1,2,1,-5,4])); //6
-// 思路：首先要初始化两个变量
-// 然后遍历这个数组，如果小于0就重新计算
-// 然后每次都更新最大值
-// 时间复杂度：O(n)  空间复杂度：O(1)
+
