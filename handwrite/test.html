@@ -480,7 +480,7 @@
             <React.Fragment>
               <div id="box">
 				<h1 className="h1">省市区三级联动</h1>
-				<select id="province" onChange={this.changeProvince}>
+				<select id="province" onChange={this.changeProvince} >
 				  <option>请选择省份</option>
 				</select>
 				<select id="city" onChange={this.changeCity}>
@@ -494,76 +494,58 @@
           );
         }
         // 在此处补充代码
-        componentWillMount() {
-          this.setState(
-            {
-              provinceData: this.state.datas,
-            },
-            () => {
-              let province = document.getElementById("province");
-              this.state.provinceData.forEach((item, index) => {
-                let option = document.createElement("option");
-                option.value = index;
-                option.text = item.name;
-                province.add(option);
-              });
-            }
-          );
-        }
-        changeProvince = (e) => {
-          let index = e.target.value;
-          let city = document.getElementById("city");
-          city.length = 1;
-          let area = document.getElementById("area");
-          area.length = 1;
-          if (index === "请选择省份") {
-            this.setState({
-              cityData: [],
-              areaData: [],
-            });
+		changeProvince = (e) => {
+		  const provinceIndex = e.target.selectedIndex - 1;
+		  const cityData =
+			provinceIndex === -1
+			  ? []
+			  : this.state.datas[provinceIndex].cityList;
+		  this.setState({
+			cityData: cityData,
+			areaData: [],
+		  });
+		  const citySelect = document.getElementById("city");
+		  const areaSelect = document.getElementById("area");
+		  citySelect.length = 1;
+		  areaSelect.length = 1;
+		  for (let i = 0; i < cityData.length; i++) {
+			const option = document.createElement("option");
+			option.innerText = cityData[i].name;
+			citySelect.appendChild(option);
+		  }
+		};	
+		changeCity = (e) => {
+		  const cityIndex = e.target.selectedIndex - 1;
+		  const areaData =
+			cityIndex === -1 ? [] : this.state.cityData[cityIndex].areaList;
+		  this.setState({
+			areaData: areaData,
+		  });
+		  const areaSelect = document.getElementById("area");
+		  areaSelect.length = 1;
+		  for (let i = 0; i < areaData.length; i++) {
+			const option = document.createElement("option");
+			option.innerText = areaData[i];
+			areaSelect.appendChild(option);
+		  }
+		};
+	  }
+	  // 在此处补充代码
+	  // 初始化省份数据
+	  const messageInstance = new Message();
+	  messageInstance.state.provinceData = messageInstance.state.datas.map(
+		(item) => item.name
+	  );
+	  const provinceSelect = document.getElementById("province");
+	  for (let i = 0; i < messageInstance.state.provinceData.length; i++) {
+		const option = document.createElement("option");
+		option.innerText = messageInstance.state.provinceData[i];
+		provinceSelect.appendChild(option);
+	  }	
+	  
 
-            return;
-          }
-          this.setState(
-            {
-              cityData: this.state.provinceData[index].cityList,
-              areaData: [],
-            },
-            () => {
-              this.state.cityData.forEach((item, index) => {
-                let option = document.createElement("option");
-                option.value = index;
-                option.text = item.name;
-                city.add(option);
-              });
-            }
-          );
-        };
-        changeCity = (e) => {
-          let index = e.target.value;
-          let area = document.getElementById("area");
-          area.length = 1;
-          if (index === "请选择城市") {
-            this.setState({
-              areaData: [],
-            });
-            return;
-          }
-          this.setState(
-            {
-              areaData: this.state.cityData[index].areaList,
-            },
-            () => {
-              this.state.areaData.forEach((item) => {
-                let option = document.createElement("option");
-                option.value = item;
-                option.text = item;
-                area.add(option);
-              });
-            }
-          );
-        };
-      }
+
+
       // 渲染组件
 
       const rootElement = document.getElementById("root");
