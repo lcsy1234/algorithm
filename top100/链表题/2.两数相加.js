@@ -61,3 +61,6 @@ var addTwoNumbers = function (l1, l2) {
   }
   return dummyHead.next;
 };
+//犯错的地方是size未初始化
+//未移出旧key
+//哈希表删除的key删成了新值的key
