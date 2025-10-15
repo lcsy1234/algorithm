@@ -22,7 +22,7 @@ const debounce = (fn, interval) => {
   };
 };
 // 如果要立即执行
-const debounce = (fn, interval,immediate) => {
+const debounceCopy = (fn, interval,immediate) => {
   let timer = null;
   if (timer) clearInterval(timer);
   return function (...args) {
