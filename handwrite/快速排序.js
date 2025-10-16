@@ -18,6 +18,7 @@ const quickSort = (arr) => {
 
   return quickSort(left).concat([pivot], quickSort(right));
 };
+
 function quickSort(array) {
   //先去重
   //   const arr=[...new Set(array)];

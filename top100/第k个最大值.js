@@ -75,5 +75,43 @@ function findKthLargest(nums,k){
    }
    return quickSelect(0,len-1)
 }
+//堆
+var findKthLargest = function (nums, k) {
+  const heap = [];
+  //
+  const heapify = function (index) {
+    let smallest = index;
+    let left = 2 * index + 1; //左节点的索引存在
+    let right = 2 * index + 2;//右边节点
+    if (left < heap.length && heap[left] < heap[smallest]) {
+      smallest = left;
+    }
+    if (right < heap.length && heap[right] < heap[smallest]) {
+      smallest = right;
+    }
+    //如果最小值不是当前节点就递归更新
+    if (smallest !== index) {
+      [heap[index], heap[smallest]] = [heap[smallest], heap[index]];
+      heapify(smallest); // 递归调整子树
+    }
+  };
+  //找到堆的size
+  for (let i = 0; i < k; i++) {
+    heap.push(nums[i]);
+  }
+  //非叶子节点因为有子节点，
+  for (let i = Math.floor(k / 2) - 1; i >= 0; i--) {
+    heapify(i);
+  }
+
+  for (let i = k; i < nums.length; i++) {
+    if (nums[i] > heap[0]) {
+      heap[0] = nums[i];
+      heapify(0);
+    }
+  }
+  return heap[0];
+};
+
 
 
