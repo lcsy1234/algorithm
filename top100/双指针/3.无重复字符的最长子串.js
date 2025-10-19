@@ -3,14 +3,32 @@ var lengthOfLongestSubstring = function (s) {
   let left = 0;
   let maxLen=0;
   for (let right = 0; right < s.length; right++) {
-     const cur=s[right]
+     const cur=s[right]//
     if (hashObj.has(cur) && hashObj.get(cur)>= left){
         //当前的左边界移动到新的左边界
-      left = hashObj.get(cur) + 1;
+      left = hashObj.get(cur) + 1;//
     }
     hashObj.set(cur, right);
     maxLen = Math.max(maxLen, right - left + 1);
   }
   return maxLen
 };
+//思路就是快慢指针+hash表
+const maxLenOfStr=(str)=>{
+  const len=str.length
+  let maxLen=0
+  let left=0
+  let hashObj=new Map()
+  for(let right=0;right<len;right++){
+   const char=str[right] 
+    if(hashObj.get(char)&&hashObj.get(char)>left){
+      left=hashObj.get(char)+1
+    }
+    hashObj.set(char,right)//当前字符串，&当前字符串的位置
+    maxLen=Math.max(maxLen,right-left+1)
+  }
+  return maxLen
+}
+
+
  
