@@ -39,3 +39,32 @@ function arrayToTree(arr, rootParentId = 0) {
 
   return tree;
 }
+// 问题：就是给你一个数组，数组里面有对象，转换成树
+//思路：通过id与parentId建立父子关系，
+//建立映射表，对应元素的id作为key
+//关联父子节点：通过pid找到父节点，然后将当前节点的值放在pid的chidren中
+//收集根节点，根节点的pid通常为0或者null，最终返回所有根节点组成的数组
+function arrayToTree(arr,rootParentId=0){
+  if(!Array.isArray(arr)&&arr.length===0)return []
+  const nodeMap={}
+  for(const item of arr){
+    nodeMap[item.id]={...item,children:[]}
+  }
+  const tree=[]
+  for(const item of arr){
+    const currentNode=nodeMap[item.id]
+    const parentId=item.parentId
+    if(parentId===rootParentId){
+      tree.push(currentNode)
+    }else{
+      const parentNode=nodeMap[parentId]
+      if(parentNode){
+        parentNode.children.push(currentNode)
+      }else{
+        tree.push(currentNode)
+      }
+    }
+  }
+  return tree
+
+}
