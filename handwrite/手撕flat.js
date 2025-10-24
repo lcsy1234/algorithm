@@ -12,3 +12,4 @@ const myFlat=(nums,depth=1)=>{
     }
     return result
 }
+// 思路：如果下面是数组并且深度>1就开始递归，并且将数组中的nums[i],depth,
