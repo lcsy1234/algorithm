@@ -25,5 +25,21 @@ function formatPrice(price) {
   // 如果有小数部分，拼接小数；否则直接返回整数部分
   return decimalPart ? `${formattedInteger}.${decimalPart}` : formattedInteger;
 }
+//千分位的思路是将小数点形式，改为千分位的形式，就是从各位开始，现将小数点与整数进行拆分，
+1234
+const local=(nums)=>{
+  const [integer,decimal]=nums.toString().split('.')
+  const resStr=''
+  let count=0
+  for(let i=integer.length-1;i>=0;i--){
+    if(count%3===0&&i!==0){
+      resStr=','+resStr
+    }else{
+      resStr=nums[i]+resStr // 34
+    }
+    count++
+  }
+  return decimal?resStr+decimal:resStr
+}
 
 
