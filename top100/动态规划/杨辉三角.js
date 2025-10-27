@@ -2,6 +2,7 @@
  * @param {number} numRows
  * @return {number[][]}
  */
+// 思路：转移方程是节点位置dp[i][j]=上一层dp[i-1]的j的位置与j-1位置的和dp[i][j]=dp[i-1][j-1]+dp[i-1][j]
 var generate = function(numRows) {
     // 边界处理：0 行返回空数组
     if (numRows === 0) return [];
