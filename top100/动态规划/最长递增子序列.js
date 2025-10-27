@@ -18,5 +18,5 @@ var lengthOfLIS = function(nums) {
         maxLen=Math.max(dp[i],maxLen)
     }
     return maxLen
-    
 };
+//贪心+
