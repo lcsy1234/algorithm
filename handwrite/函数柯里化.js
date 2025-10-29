@@ -27,4 +27,18 @@ function sum(a, b, c, d) {
 const curriedSum = curry(sum);
 console.log(curriedSum(1)(2)(3)(4)); // 10（参数足够，执行）
 // console.log(curriedSum(1)(2)(3)); // 函数（参数不足，继续等待）
-// 思路：利用闭包，分步收集数据，挨个函数执行
+// 思路：利用闭包，分步收集数据，挨个函数返回自身，然后再满足条件之后才会执行
+const curryFunc=(fn)=>{
+    const len=fn.length
+    const args=[]
+    function inFn(arg){
+        args.push(arg)
+        if(args.length<len){
+            return inFn
+        }else{
+            return fn.apply(this,args)
+        }
+    }
+    return inFn
+}
+
