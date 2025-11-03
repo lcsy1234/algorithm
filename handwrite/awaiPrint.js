@@ -1,0 +1,1 @@
+// await 每隔一秒打印hello world
