@@ -8,7 +8,6 @@ var minWindow = function(s, t) {
     const need = new Map();
     // 哈希表：记录当前窗口中字符的出现次数
     const window = new Map();
-    
     // 初始化need：统计t中每个字符的频率
     for (const c of t) {
         need.set(c, (need.get(c) || 0) + 1);
@@ -61,3 +60,4 @@ var minWindow = function(s, t) {
     return minLen === Infinity ? "" : s.substring(start, start + minLen);
 };
 console.log(minWindow("ADOBECODEBANC",'ABC'))
+
