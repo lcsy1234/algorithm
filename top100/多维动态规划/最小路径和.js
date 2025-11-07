@@ -6,7 +6,7 @@
 var minPathSum = function(grid) {
     const m=grid.length
     const n=grid[0].length
-    const  dp=new Array(m).fill(0).map(()=>new Array(n))
+    const  dp=new Array(m).fill(0).map(()=>new Array(n).fill(0))
     dp[0][0]=grid[0][0]
     //填充第一行，所以长度是列的数量,并且只能从左边过来
     for(let i=1;i<n;i++){
