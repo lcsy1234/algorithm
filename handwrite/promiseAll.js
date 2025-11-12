@@ -1,78 +1,54 @@
-// // 静态方法：myPromise.all
-//   function all(promises) {
-//     // 返回一个新的 Promise
-//     return new myPromise((resolve, reject) => {
-//       // 边界处理：非数组输入直接报错
-//       if (!Array.isArray(promises)) {
-//         return reject(new TypeError("The input must be an array"));
-//       }
-
-//       const result = []; // 存储所有成功结果（按输入顺序）
-//       let completedCount = 0; // 已完成的 Promise 数量
-//       const total = promises.length; // 总数量
-
-//       // 空数组直接 resolve
-//       if (total === 0) {
-//         return resolve(result);
-//       }
-
-//       // 遍历每个元素（处理非 Promise 值）
-//       promises.forEach((promise, index) => {
-//         // 用 myPromise.resolve 包装，确保非 Promise 值也能按 Promise 处理
-//         myPromise.resolve(promise).then(
-//           (value) => {
-//             // 按索引存储结果（保证顺序与输入一致）
-//             result[index] = value;//一个promise
-//             completedCount++;
-
-//             // 所有 Promise 都成功时，resolve 结果数组
-//             if (completedCount === total) {
-//               resolve(result);
-//             }
-//           },
-//           (reason) => {
-//             // 有一个失败，立即 reject（只触发一次）
-//             reject(reason);
-//           }
-//         );
-//       });
-//     });
-//   }
-//     // 辅助静态方法：将值转为 myPromise（处理非 Promise 输入）
-//   function resolve(value) {
-//     if (value instanceof myPromise) {
-//       return value; // 如果是 myPromise 实例，直接返回
-//     }
-//     // 否则返回一个新的成功状态 Promise
-//     return new myPromise((resolve) => resolve(value));
-//   }
-
-// // 思路：就是首先帕努单是否是数组，然后返回一个新的promise
-// //然后这个promise将每个promise放到
-// class promise{
-
-// }
-// function all(promises){
-//     return new promise((resolve,reject)=>{
-//         if(!Array.isArray(promises)){
-//             reject('不是数组')
-//         }
-//         //
-//         const res=[]
-//         const len=promises.length
-//         if (len===0) resolve(res)
-//         let count=0
-//     //开始将数组中的内容给遍历出来
-//     promises.forEach((promise,index)=>{
-//         //然后有不同的请求，将请求用myPromise来包装
-//         promise.resolve(promise).then((value)=>{
-//             promise.
-//         })
-       
-
-//     })
-
-        
-//     })
-    
-// }
+// promiseHooks.all([p1,p1])
+//一次性返回所有promise的结果，结果是resolve获得的值还是什么，然后如果有一个错误直接返回报错
+class MyPromise {}
+//可迭代对象
+function myAll(promises) {
+  if (!Array.isArray(promises)) {
+    return MyPromise.reject(new TypeError("The input must be an array"));
+  }
+  //  Array.isArray(promises)
+  //因为需要将完成后的结果一整个resolve出去，所以需要一个myPromise
+  return new MyPromise((resolve, reject) => {
+    let count = 0;
+    const total = promises.length;
+    const res = [];
+    if (total === 0) {
+      resolve(res);
+    }
+    for (let i = 0; i < total; i++) {
+      //resolve 会将非promise的内容包裹起来
+      MyPromise.resolve(promises[i]).then(
+        (value) => {
+          count++;
+          res.push(value);
+          if (count === total) {
+            resolve(res);
+          }
+        },
+        (reason) => {
+          reject(reason);
+        }
+      );
+    }
+  });
+}
+function resolve(promise) {
+  if (promise instanceof MyPromise) {
+    return value;
+  }
+ if (typeof value === 'object' && value !== null && typeof value.then === 'function') {
+    return new MyPromise((resolve, reject) => {
+      // 调用 thenable 的 then 方法，将 resolve/reject 传入，遵循其状态
+      // 注意：then 方法可能抛出错误，需要捕获
+      try {
+        value.then(resolve, reject);
+      } catch (err) {
+        // 若 then 方法执行出错，直接 reject
+        reject(err);
+      }
+    });
+  }
+  return new MyPromise((resolve) => {
+    resolve(value);
+  });
+}
