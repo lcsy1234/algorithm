@@ -50,7 +50,7 @@ class MyPromise {
     onFulfilled = typeof onFulfilled === 'function' ? onFulfilled : value => value;
     onRejected = typeof onRejected === 'function' ? onRejected : reason => { throw reason; };
 
-    // then 必须返回新 Promise，实现链式调用
+    // then 必须返回新 Promise，实现链式调用，因为要实现链式调用，就比如在参数中，有一个函数，函数中return了一个newpromise
     const newPromise = new MyPromise((resolve, reject) => {
       // 1. 当前 Promise 已处于 fulfilled 状态（同步 resolve 场景）
       if (this.status === MyPromise.FULFILLED) {

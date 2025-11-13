@@ -1,35 +1,42 @@
-class myPromise {
+class MyPromise {
   static PENDING = "pending";
   static FULFILLED = "fulfilled";
   static REJECTED = "rejected";
-  //resolve接收状态，并且改变状态，
   constructor(executor) {
+    this.status = MyPromise.PENDING;
     this.value = undefined;
-    this.status = myPromise.PENDING;
     this.reason = undefined;
-    this.onFulfilledCallBacks = [];
+    this.onFulfilledCallbacks = [];
     this.onRejectedCallBacks = [];
-    const resolve=(value)=> {
-      if (this.status !== myPromise.PENDING) return;
-      this.status = myPromise.FULFILLED;
+    //管理状态，value是要return出去的吧
+    const resolve = (value) => {
+      if (this.status !== MyPromise.PENDING) return;
+      this.status = MyPromise.FULFILLED;
       this.value = value;
-      this.onFulfilledCallBacks.forEach((cb) => cb());
-    }
-    const reject=(reason)=> {
-      if (this.status !== myPromise.PENDING) return;
-      this.status = myPromise.REJECTED;
+      //继续执行pending状态的内容
+      this.onFulfilledCallbacks.forEach((cb) => cb());
+    };
+    //reason
+    const reject = (reason) => {
+      if (this.status !== MyPromise.PENDING) return;
+      this.status = MyPromise.REJECTED;
       this.reason = reason;
-      this.onRejectedCallBacks.forEach((cb) => cb());
-    }
-
+      this.onRejectedCallBacks.forEach((ab) => cb());
+    };
     try {
       executor(resolve, reject);
-    } catch (error) {
-      reject(error);
+    } catch (err) {
+      // 执行器中抛出错误，直接 reject
+      reject(err);
     }
   }
-  //思路是要判断传回来的数是一个函数，然后需要再返回一个
+  //then的作用调用一个new promise,传入的是函数
+  //开始调用
+
   then(onFulfilled, onRejected) {
+    // 类里面的的报错怎么写
+    // if(typeof onFulfilled!=='function') { this.reject}
+    // 处理 onFulfilled/onRejected 不是函数的情况（透传值）
     onFulfilled =
       typeof onFulfilled === "function" ? onFulfilled : (value) => value;
     onRejected =
@@ -38,92 +45,64 @@ class myPromise {
         : (reason) => {
             throw reason;
           };
-    const newPromise = new myPromise((resolve, reject) => {
-      //有三个状态
-      if (this.status === myPromise.FULFILLED) {
+    //要返回一个newPromise ，如果 onFulfilled中的值已经是new promise的话，那就调用函数的then的状态
+    // result.then(resolve, reject);
+    const newPromise = new MyPromise((resolve, reject) => {
+      if (this.status === MyPromise.FULFILLED) {
+        // const result=
         setTimeout(() => {
           try {
             const result = onFulfilled(this.value);
             resolvePromise(newPromise, result, resolve, reject);
-          } catch (error) {
-            reject(error);
+          } catch (err) {
+            reject(err);
           }
         }, 0);
       }
-      if (this.status === myPromise.REJECTED) {
+      if (this.status === MyPromise.REJECTED) {
         setTimeout(() => {
           try {
-            const result = onRejected(this.reason);
+            const result = onRejected(this.value);
             resolvePromise(newPromise, result, resolve, reject);
-          } catch (error) {
-            reject(error);
+          } catch (err) {
+            reject(err);
           }
         }, 0);
       }
-      if (this.status === myPromise.PENDING) {
-        this.onFulfilledCallBacks.push(
-          ()=>{
-            setTimeout(() => {
+      if (this.status === MyPromise.PENDING) {
+        this.onFulfilledCallbacks.push(
+          setTimeout(() => {
             try {
               const result = onFulfilled(this.value);
               resolvePromise(newPromise, result, resolve, reject);
-            } catch (error) {
-              reject(error);
+            } catch (err) {
+              reject(err);
             }
           }, 0)
-          }
         );
         this.onRejectedCallBacks.push(
-          ()=>{
-            setTimeout(() => {
+          setTimeout(() => {
             try {
-              const result = onRejected(this.reason);
+              const result = onRejected(this.value);
               resolvePromise(newPromise, result, resolve, reject);
-            } catch (error) {
-              reject(error);
+            } catch (err) {
+              reject(err);
             }
           }, 0)
-          }
         );
       }
     });
-    return newPromise
   }
- 
 }
-function resolvePromise(newPromise, result, resolve, reject) {
-    if (newPromise === result) {
-      return reject(new TypeError("Chaining cycle detected for promise"));
-    }
-    if (result instanceof myPromise) {
-      // 沿用其状态（result 成功则新 Promise 成功，反之亦然）
-      result.then(resolve, reject);
-    } else {
-      // 普通值直接 resolve 新 Promise
-      resolve(result);
-    }
+function resolvePromise(promise, result, resolve, reject) {
+  //如果
+  // 避免循环引用（如果返回值是新 Promise 本身）
+  if (promise === result) {
+    return reject(new TypeError('Chaining cycle detected for promise'));
   }
-const p1=new myPromise((resolve)=>{
-    resolve('成功')
-})
-p1.then(value => {
-  console.log('p1 第一次 then', value); // 同步成功
-  return '第一个 then 的返回值';
-}).then(value => {
-  console.log('p1 第二次 then', value); // 第一个 then 的返回值
-});
-const p2 = new myPromise((resolve, reject) => {
-  setTimeout(() => {
-    // resolve('异步成功');
-    reject(new Error('异步失败'));
-  }, 1000);
-})
-p2.then(
-  value => console.log('p2 成功：', value),
-  err => {
-    console.log('p2 错误回调：', err.message); // 异步失败
-    throw new Error('处理错误时新增错误');
+  if (result instanceof MyPromise) {
+    result.then(resolve, reject);
+  } else {
+    resolve(result);
   }
-).catch(err => {
-  console.log('p2 catch：', err.message); // 处理错误时新增错误
-});
+}
