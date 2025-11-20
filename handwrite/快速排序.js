@@ -1,6 +1,5 @@
 // 递归：先递后归，先执行
 const quickSort = (arr) => {
-  console.log("%c Line:26 🥟 arr", "color:#7f2b82", arr);
   if (arr.length <= 1) return arr;
   const pivotIndex = Math.floor(arr.length / 2); //3
   const pivot = arr.splice(pivotIndex, 1)[0]; //删除中间元素并提取
