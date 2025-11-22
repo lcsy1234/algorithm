@@ -12,9 +12,6 @@ const quickSort = (arr) => {
       right.push(arr[i]);
     }
   }
-
-  console.log("%c Line:39 🍇 left", "color:#2eafb0", left);
-
   return quickSort(left).concat([pivot], quickSort(right));
 };
 
