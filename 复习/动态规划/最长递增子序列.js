@@ -33,3 +33,22 @@ function lengthOfLIS(nums) {
 console.log(lengthOfLIS([10,9,2,5,3,7,101,18]))
 // 思路：维护一个数组，如果大于末尾值的话push到末尾
 //如果小于末尾值的话，就找到第一个比他大的值进行替换
+
+//动态规划：思路是dp[i]是maxVal的状态，
+//状态转移：让当前值与之前的值都进行一一对比， Math.max(dp[i], dp[j] + 1);，dp[i]可能已经存储了之前累计的一个值bi如2357，对比dp【3】+1的时候已经计算了dp【i】=dp【2】+1，
+var lengthOfLIS = function(nums) {
+    const n=nums.length
+    if (n===0) return 0
+    const dp=new Array(n+1).fill(1)
+    let maxLen=1
+    for(let i=1;i<n;i++){
+        for(let j=0;j<i;j++){
+            //就是如果当前的值小于i的话，就可以拼接更长的字符串，就要判断再这个片段里面的最长
+           if (nums[j] < nums[i]) {
+                dp[i] = Math.max(dp[i], dp[j] + 1);
+            }
+        }
+        maxLen=Math.max(dp[i],maxLen)
+    }
+    return maxLen  
+};
