@@ -23,7 +23,6 @@ function canPartition(nums) {
         for (let j = target; j >= num; j--) {
             // 状态转移：dp[j] = 之前已能凑出j，或能凑出j-num（加当前num就凑出j）
             dp[j] = dp[j] || dp[j - num];//11/10  10/9 /
-
         }
     }
 
