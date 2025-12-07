@@ -17,9 +17,6 @@ var detectCycle = function (head) {
     }
     let prev1=head
     let prev2=slow
-    while(prev1!==prev2){
-        prev1=prev1.next
-        prev2=prev2.next
-    }
+   
     return prev1
 }
